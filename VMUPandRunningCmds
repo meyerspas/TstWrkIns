@@ -1,0 +1,112 @@
+Running Test environment.
+Bring up SSH Secure Shell.
+Connect to VM21 (use for now until 19 is cleaned up)
+m20fswts21
+port number 22 (default)
+Do Steps from the JPL wiki  (Just for the very first time you run)
+    cd ~/.ssh
+    ssh-keygen -t dsa
+    cat id_dsa.pub >> authorized_keys
+    ssh -Y m20fswts21
+   ssh -Y m20fswts21gds
+If need to stop vncserver issue this command:   
+ vncserver -kill :2   (depending on which session)
+Otherwise, then:
+    myvncserver (an alias to relaunch) then go to VNC Viewer
+    in VncViewer click on m20fswts21:x where x is session number
+   Brings up the virtual desktop.
+    from VNC Viewer, Right click, new terminal then enter: start_wsts_c4
+
+Just for the first time bring over Luis’ perspective.
+    35  14:05   cd working
+    36  14:06   which yint
+    37  14:08   vi .aliases
+    38  14:08   vi m320*rmeyers
+    39  14:08   vi m20cedl-pkg-remeyers
+    40  14:08   cd *rmeyers
+    41  14:08   ls -tlr
+    42  14:10   find . -name *cedl* -print
+    43  14:10   more *.txt
+    44  14:10   cd *cedl*
+    45  14:11   vi YAM.config
+    46  14:13   cd lg*
+    47  14:13   cd galdamez
+    48  14:13   find . -name YAM.config -print
+    49  14:14   cd fswsource
+    50  14:14   cd m20cedl*
+    51  14:14   cd *pkg-galdamez
+    52  14:15   cd fsw
+    53  14:17   more YAM.config
+    54  14:19   cd *rmeyers*
+    55  14:23   ls -tlr *.
+    56  14:23   ls -ltr .*
+    57  14:25   cp -p /home/galdamez/.chsrc .
+    58  14:25   cd ../galdamez
+    59  14:25   ls -tlr .cshrc
+
+60  14:26   cp -p .cshrc ../rmeyers
+    61  14:26   cd ../rmeyers
+    62  14:26   vi .cshrc
+    63  14:26   source .cshrc
+    64  14:26   fit
+    65  14:27   yint
+    66  14:53   ll
+    67  14:53   mv P OldPerspective
+    68  14:53   cd OldPerspective
+    69  14:56   cd CHILL
+    70  14:56   mv defaultPerspective originalPerspective
+    71  14:56   mv DefaultPerspective OriginalPerspective
+    72  14:57   cp -Rp /home/galdamez/CHILL/DefaultPerspective .
+    73  14:57   cd Default*
+
+Just for the first time bring over Luis’ perspective END
+  Already in the path, but here is the directory anyway:
+/proj/m2020/fsw/tools/bin
+     start_wsts_c4
+run start_wsts.py on C4.json
+---Running---
+WSTS: version
+FSW:  version
+Dict: version
+MPCS:  version
+Shows command and logging
+    Brings up a bunch of windows including:
+     Command window  (to enter commands directly)
+     Uplink Control
+     FSW EHA
+     EVR GUI
+     FSW
+     SSC
+     VSIM – don’t need
+     SSE console – don’t need
+Time Controller
+•	After starting the WSTS session, you should see a number of different windows pop up.  The first one that will come up is the TimeController window, as shown in the upper left of the screenshot below.
+•	The TimeController is the main window for managing the execution of the sim.  The window will tell you that the sim has successfully started, and then that the FSW is starting up on the VxSim OS simulator.
+VXSIM
+MPCS (CHILL) pages for GDS, that allows user to send commands/receive telemetry to/from FSW and SSE SW
+
+
+When see in EVR GUI log BCB_EVR_STARTING_POWERUP_HISTORY_REPORT Starting a history report for BCBx then know system is ready.
+
+    Right click, new terminal:
+cd m20fit-pkg-username1
+cd rimfax_func
+Run: rimfax test script
+Examine Python script:
+fitfunc m20_rimfax_func.py
+    86  15:33   vi m20_rimfax_func.py
+Results in runs folder:
+
+
+My question: How do you know which versions of software you are running?
+How to control which versions of software you are running from the script?
+
+Look at Common library calls:
+    90  15:55   cd *fit*
+    91  15:55   cd src
+    94  15:56   cd fit_common
+    95  15:56   ls -ltr
+    96  15:57   cd lib
+    msl_mtak_wrapper.py
+   100  17:22   exit
+   101  17:23   ps -ef | grep vnc
