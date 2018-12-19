@@ -1,0 +1,79 @@
+Assuming doing surface test for S5 and later.
+1.	Get assigned requirements to test. 
+2.	Work highest priority requirement first.
+3.	Do I understand requirement? Ask Instrument SW Test lead if questions.
+4.	If Instrument SW test lead not sure ask developer or Instrument Engineer if
+Available.
+5.	Write up VNV Approach based on understanding of requirement. This will be used for approach review but feel free to discuss with Instrument Engineer or developer.
+6.	 Start developing python script from original cedl script. Create function for
+test from spreadsheet.
+Artifacts to keep in mind while developing test script:
+a)	Dictionary -  on web site for surface evrs, commands, telemetry channels app ids.
+b)	CMD_2018-05-22_A spreadsheet for icmds, condition codes, status flags, and conversions
+c)	Proposed APIDS in DOORS (data products)  Also see MPCS Monitor window in WSTS for Data Products that get reported.
+d)	Command Reply frame  / Science Data frame data sheet / also goes hand in hand with tool createInstrFrame.pl that is run from non GDS machine to help generate injected replies to commands that are sent.
+e)	PIE Commands – like FSW_PIE_PRM_NUM_SET (type of FSW_PIE_PRM command) in
+Command builder. Params: Module_id, group_id_hash, copy_id, param_id, spec_boot_bank
+Example of how to set spec_boot_bank, FSW_PIE_PRM_NUM_SET, 
+Group_id_hash = SPEC_GENERAL, module_id = sherloc, copy_id = copy_0, param_id = spec_boot_bank, value = 0,1 
+7.	After all tests pass when run script. Generate session report by doing fitfunc –session with script
+You are running.
+8.	Session reports get generated in: Where session reports get saved:       /proj/m2020/fsw/wsts_results/scat/m20fswts19gds/ Directory with session number
+Best to download these to your computer
+9.	Then Use this technique to make session reports useful for review:
+For the session reports, I suggest you first convert the *.xls file to *.xlsx because the new excel format is smaller and faster.
+
+Then sort on the following	
+
+ERT
+SCLK
+SEQUENCE ID
+
+ 
+Sort on anything that looks like a number as a number when prompted.
+This should get the MPCS script log and the real time EVRs to line up better.
+
+Then in the “SOURCE” column, filter out “SSE”
+And in the “TYPE” column filter out “LOG INFO” and “LOG WARNING”
+Sometimes the “FSW REC” EVRs interfere with understanding the session reports.  If this is the case (as it was in this case) filter out “FSW REC” from the “SOURCE” column.
+
+This should make the session report much more clear to understand/follow.  Give it a try on the original spreadsheet you sent me and those EVRs should pop up.
+
+10.	Within Session Report match up VNV Approach steps with EVRS that occur. Tell reviewer where to start in reviewing that the VNV approach is used appropriately and results indicate pass/fail.
+Document with text like: “Verify EVR: cmd: 0xFD800001/0xFAFFFD80. 
+reply: 0xFD900101/0xFC1FFE90. 
+scidata: 0x00000000/0x00000000”,
+“Verify EHA: SFP-0714, dn=0x55555555” matching steps in the EVR
+
+NOTE: PREFERENCE is to run all tests together to produce one session report – then document it.
+
+Deliverables:
+1.	To Alexander Lumnah cc Yogita/Dannys Test Matrix to be added to DNG
+
+2.	Python script for tests to Pyam:
+a.	To pyam save:
+b.	svn commit -m "MFSW-3281 C4 added verification of FSW-MCZ-011."
+c.	pyam save mcamz_func --bug-id "MFSW-3281" -m "MFSW-3281 C4 added verification of FSW-MCZ-011."
+
+d.	svn add all files, including the one (or two) logs that go with the session report
+e.	svn commit -m ""  (run from location of script)
+f.	pyam save XXXXX_func --bug-id "" -m ""  (run from /src)
+3.	Add artifacts to docushare location/link 
+Specify location of log file in the Test Matrix as well
+Examples of Docushare link:
+https://delta-lib.jpl.nasa.gov/docushare/dsweb/View/Collection-51363   then login
+then JPL Electronic library service, then go to home page.
+Then Mars Surface Mission 2020
+01 – Work Area   06 Flight System 06.05 Avionics Subsystem FSW V&V S5 V&V Data Collection
+
+Put test matrix and test data there.
+
+Example of Location of log file: /proj/m2020/fsw/pyam/fit/Module-Releases/moxi_func/moxi_func-R1-00i/runs. Though might not be quite right as a path.
+
+Resources:
+https://wiki.jpl.nasa.gov/pages/viewpage.action?spaceKey=FSWwiki&title=msl_mtak_wrapper.py+help
+All about msl wrapper functions
+
+Creating new fit package:
+select a working folder in your home directory, and type "yint". It will bring up vi and find "BRANCH_rimfax_func" and type a few spaces then your username. Then save and quit - that'll start creating a FIT package for you, with rimfax checked out.
+(Also see: https://wiki.jpl.nasa.gov/pages/viewpage.action?spaceKey=FSWwiki&title=FIT+Step+by+step+process)
